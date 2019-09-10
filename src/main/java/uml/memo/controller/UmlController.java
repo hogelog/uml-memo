@@ -1,4 +1,4 @@
-package uml.memo;
+package uml.memo.controller;
 
 import net.sourceforge.plantuml.SourceStringReader;
 import org.slf4j.Logger;
@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
