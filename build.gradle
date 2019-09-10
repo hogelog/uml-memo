@@ -3,7 +3,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.1.6.RELEASE")
+        classpath('org.springframework.boot:spring-boot-gradle-plugin:2.1.8.RELEASE')
     }
 }
 
@@ -24,6 +24,6 @@ sourceCompatibility = JavaVersion.VERSION_11
 targetCompatibility = JavaVersion.VERSION_11
 
 dependencies {
-    compile("org.springframework.boot:spring-boot-starter-web")
+    compile('org.springframework.boot:spring-boot-starter-web:2.1.8.RELEASE')
     testCompile('org.springframework.boot:spring-boot-starter-test')
 }
