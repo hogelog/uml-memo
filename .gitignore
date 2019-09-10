@@ -1,3 +1,6 @@
 .gradle/
 build/
 out/
+node_modules/
+.cache/
+src/main/resources/static/

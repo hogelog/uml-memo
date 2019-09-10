@@ -1,0 +1,21 @@
+{
+  "name": "uml-memo",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:hogelog/uml-memo.git",
+  "author": "hogelog <konbu.komuro@gmail.com>",
+  "license": "MIT",
+  "private": true,
+  "devDependencies": {
+    "parcel-bundler": "^1.12.3",
+    "typescript": "^3.6.2"
+  },
+  "scripts": {
+    "build": "NODE_ENV=production parcel build web/index.html --out-dir src/main/resources/static/",
+    "serve": "NODE_ENV=development parcel serve web/index.html --out-dir src/main/resources/static/"
+  },
+  "dependencies": {
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0"
+  }
+}
