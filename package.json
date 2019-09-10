@@ -15,7 +15,12 @@
     "serve": "NODE_ENV=development parcel serve web/index.html --out-dir src/main/resources/static/"
   },
   "dependencies": {
+    "@types/node": "^12.7.4",
+    "@types/react": "^16.9.2",
+    "@types/react-dom": "^16.9.0",
+    "codemirror": "^5.48.4",
     "react": "^16.9.0",
+    "react-codemirror2": "^6.0.0",
     "react-dom": "^16.9.0"
   }
 }
