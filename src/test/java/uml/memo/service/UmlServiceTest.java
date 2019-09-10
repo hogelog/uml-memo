@@ -1,6 +1,8 @@
-package uml.memo.controller;
+package uml.memo.service;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.equalTo;
+import static org.junit.Assert.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import org.junit.Test;
@@ -16,14 +18,20 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-public class UmlControllerTest {
-
+public class UmlServiceTest {
     @Autowired
-    private MockMvc mvc;
+    UmlService service;
+
+    private static final String SAMPLE_UML = "@startuml\nBob -> Alice : hello\n@enduml";
+    private static final String SAMPLE_ENCODED = "eNpzKC5JLCopzc3hcspPUtC1U3DMyUxOVbBSyEjNycnnckjNSwFKAgD4CQzA";
 
     @Test
-    public void getImage() throws Exception {
-        mvc.perform(MockMvcRequestBuilders.get("/uml/image").accept(MediaType.IMAGE_PNG_VALUE))
-                .andExpect(status().isOk());
+    public void encode() throws Exception {
+        assertThat(service.encode(SAMPLE_UML), is(SAMPLE_ENCODED));
+    }
+
+    @Test
+    public void decode() throws Exception {
+        assertThat(service.decode(SAMPLE_ENCODED), is(SAMPLE_UML));
     }
 }

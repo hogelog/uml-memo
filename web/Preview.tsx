@@ -1,17 +1,57 @@
 import * as React from 'react';
 
-const endpoint = (process.env.NODE_ENV === 'development' ? 'http://localhost:8080' : '') + '/uml/image';
+const host = process.env.NODE_ENV === 'development' ? 'http://localhost:8080' : '';
 
 export default class Preview extends React.Component<{uml: string}> {
-    render() {
-        const { uml } = this.props;
+    fetching = false;
+    state = {
+        encodedUml: "",
+    };
 
-        let url = `${endpoint}?uml=${encodeURIComponent(uml)}`;
+    updateUml() {
+        if (this.fetching) return;
+        this.fetching = true;
+
+        let form = new FormData();
+        form.append("uml", this.props.uml)
+
+        return fetch(`${host}/api/uml`, {
+            method: 'POST',
+            body: form,
+            mode: "cors",
+        }).then((res) => {
+            return res.json();
+        }).then((data) => {
+            this.fetching = false;
+            this.setState({ encodedUml: data.encoded });
+        });
+    }
+
+    componentDidMount() {
+        this.updateUml();
+    }
+
+    render() {
+        if (this.state.encodedUml.length == 0) {
+            return (<div />);
+        }
+
+        let umlLink = `${host}/uml/source/${this.state.encodedUml}`;
+        let imageLink = `${host}/uml/${this.state.encodedUml}`;
         return (
             <div>
-                <a href={url}>{url}</a>
-                <br />
-                <img src={url} />
+                <dl>
+                    <dt>Image:</dt>
+                    <dd>
+                        <a href={imageLink}>
+                            <img src={imageLink} />
+                            <br />
+                            {imageLink}
+                        </a>
+                    </dd>
+                    <dt>Source:</dt>
+                    <dd><a href={umlLink}>{umlLink}</a></dd>
+                </dl>
             </div>
         );
     }
