@@ -26,5 +26,5 @@ targetCompatibility = JavaVersion.VERSION_11
 dependencies {
     compile('org.springframework.boot:spring-boot-starter-web:2.1.8.RELEASE')
     compile('net.sourceforge.plantuml:plantuml:8059')
-    testCompile('org.springframework.boot:spring-boot-starter-test')
+    testCompile('org.springframework.boot:spring-boot-starter-test:2.1.8.RELEASE')
 }
