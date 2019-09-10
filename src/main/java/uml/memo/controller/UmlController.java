@@ -1,29 +1,30 @@
 package uml.memo.controller;
 
-import net.sourceforge.plantuml.SourceStringReader;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import uml.memo.service.UmlService;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 @RestController
 public class UmlController {
-    private static final Logger LOGGER = LoggerFactory.getLogger(UmlController.class);
-    private static final String DEFAULT_UML = "@startuml\nBob -> Alice: hello\n@enduml";
+    @Autowired
+    UmlService umlService;
 
-    @RequestMapping(value = "/uml/image", method = GET, produces = MediaType.IMAGE_PNG_VALUE)
-    public byte[] image(@RequestParam(value="uml", defaultValue=DEFAULT_UML) String uml) throws IOException {
-        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-        SourceStringReader reader = new SourceStringReader(uml);
-        String description = reader.generateImage(buffer);
-        LOGGER.info(description);
-        return buffer.toByteArray();
+    @GetMapping(path = "/uml/source/{encoded}", produces = MediaType.TEXT_PLAIN_VALUE)
+    public String uml(@PathVariable String encoded) throws IOException {
+        return umlService.decode(encoded);
+    }
+
+    @GetMapping(path = "/uml/{encoded}", produces = MediaType.IMAGE_PNG_VALUE)
+    public byte[] image(@PathVariable String encoded) throws IOException {
+        String uml = umlService.decode(encoded);
+        return umlService.generateImage(uml);
     }
 }
