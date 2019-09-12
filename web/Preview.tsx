@@ -24,6 +24,8 @@ export default class Preview extends React.Component<{uml: string}> {
         }).then((data) => {
             this.fetching = false;
             this.setState({ encodedUml: data.encoded });
+        }).catch((e) => {
+            console.log(e);
         });
     }
 
