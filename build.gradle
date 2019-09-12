@@ -8,13 +8,9 @@ buildscript {
 }
 
 apply plugin: 'java'
+apply plugin: 'application'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
-
-bootJar {
-    baseName = 'gs-rest-service'
-    version =  '0.1.0'
-}
 
 repositories {
     mavenCentral()
@@ -22,6 +18,10 @@ repositories {
 
 sourceCompatibility = JavaVersion.VERSION_11
 targetCompatibility = JavaVersion.VERSION_11
+
+mainClassName = 'uml.memo.Application'
+bootJar.baseName = 'uml-memo'
+bootJar.classifier = 'executable'
 
 dependencies {
     compile('org.springframework.boot:spring-boot-starter-web:2.1.8.RELEASE')
