@@ -1,11 +1,9 @@
 #app {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    column-gap: 10px;
 }
 
 #editor, #preview {
-    width: 100%;
+    width: 90%;
+    margin: 0 auto;
     padding: 10px;
     word-break: break-all;
 }
