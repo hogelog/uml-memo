@@ -3,8 +3,10 @@ package uml.memo.service;
 import net.sourceforge.plantuml.SourceStringReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Base64Utils;
+import org.springframework.util.DigestUtils;
 import org.springframework.util.StreamUtils;
 import uml.memo.controller.UmlController;
 
@@ -12,6 +14,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.Optional;
 import java.util.zip.Deflater;
 import java.util.zip.DeflaterOutputStream;
 import java.util.zip.InflaterInputStream;
@@ -19,6 +22,9 @@ import java.util.zip.InflaterInputStream;
 @Service
 public class UmlService {
     private static final Logger LOGGER = LoggerFactory.getLogger(UmlController.class);
+
+    @Autowired
+    MemcachedService memcachedService;
 
     public String encode(String uml) throws IOException {
         ByteArrayOutputStream buffer = new ByteArrayOutputStream();
@@ -37,6 +43,17 @@ public class UmlService {
         try (InflaterInputStream decomp = new InflaterInputStream(new ByteArrayInputStream(compressed))) {
             return StreamUtils.copyToString(decomp, StandardCharsets.UTF_8);
         }
+    }
+
+    public byte[] generateImageWithCache(String uml) throws IOException, MemcachedService.Exception {
+        String key = "uml:" + DigestUtils.md5DigestAsHex(uml.getBytes(StandardCharsets.UTF_8));
+        Optional<byte[]> cache = memcachedService.get(key);
+        if (cache.isPresent()) {
+            return cache.get();
+        }
+        byte[] image = generateImage(uml);
+        memcachedService.put(key, image);
+        return image;
     }
 
     public byte[] generateImage(String uml) throws IOException {

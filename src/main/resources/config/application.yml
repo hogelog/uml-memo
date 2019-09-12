@@ -1,0 +1,5 @@
+memcached:
+  host: localhost
+  port: 11211
+  expiration: 600
+  namespace: "uml-memo:"

@@ -1,16 +1,16 @@
 package uml.memo.controller;
 
+import net.rubyeye.xmemcached.exception.MemcachedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import uml.memo.service.MemcachedService;
 import uml.memo.service.UmlService;
 
 import java.io.IOException;
-
-import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 @RestController
 public class UmlController {
@@ -23,8 +23,8 @@ public class UmlController {
     }
 
     @GetMapping(path = "/uml/{encoded}", produces = MediaType.IMAGE_PNG_VALUE)
-    public byte[] image(@PathVariable String encoded) throws IOException {
+    public byte[] image(@PathVariable String encoded) throws IOException, MemcachedService.Exception {
         String uml = umlService.decode(encoded);
-        return umlService.generateImage(uml);
+        return umlService.generateImageWithCache(uml);
     }
 }
