@@ -1,4 +1,5 @@
 import * as React from 'react';
+import {EditableText, HTMLTable} from "@blueprintjs/core";
 
 const host = process.env.NODE_ENV === 'development' ? 'http://localhost:8080' : '';
 
@@ -41,20 +42,31 @@ export default class Preview extends React.Component<{uml: string}> {
         let umlLink = `${host}/uml/source/${this.state.encodedUml}`;
         let imageLink = `${host}/uml/${this.state.encodedUml}`;
         return (
-            <div>
-                <dl>
-                    <dt>Image:</dt>
-                    <dd>
-                        <a href={imageLink}>
-                            <img src={imageLink} />
-                            <br />
-                            {imageLink}
-                        </a>
-                    </dd>
-                    <dt>Source:</dt>
-                    <dd><a href={umlLink}>{umlLink}</a></dd>
-                </dl>
-            </div>
+            <>
+                <img src={imageLink} />
+                <HTMLTable>
+                    <tbody>
+                    <tr>
+                        <td>Image URL</td>
+                        <td>
+                            <EditableText selectAllOnFocus={true} defaultValue={imageLink} />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Markdown</td>
+                        <td>
+                            <EditableText selectAllOnFocus={true} defaultValue={`![](${imageLink})`} />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>UML URL</td>
+                        <td>
+                            <EditableText selectAllOnFocus={true} defaultValue={`![](${umlLink})`} />
+                        </td>
+                    </tr>
+                    </tbody>
+                </HTMLTable>
+            </>
         );
     }
 }
