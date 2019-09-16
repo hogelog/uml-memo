@@ -7,7 +7,9 @@
   "license": "MIT",
   "private": true,
   "devDependencies": {
+    "@types/react-copy-to-clipboard": "^4.2.6",
     "parcel-bundler": "^1.12.3",
+    "sass": "^1.22.12",
     "typescript": "^3.6.2"
   },
   "scripts": {
@@ -21,8 +23,10 @@
     "@types/react": "^16.9.2",
     "@types/react-dom": "^16.9.0",
     "codemirror": "^5.48.4",
+    "normalize.css": "^8.0.1",
     "react": "^16.9.0",
     "react-codemirror2": "^6.0.0",
+    "react-copy-to-clipboard": "^5.0.1",
     "react-dom": "^16.9.0"
   }
 }

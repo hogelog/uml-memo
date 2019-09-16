@@ -1,0 +1,25 @@
+@import "~@blueprintjs/core/lib/scss/variables";
+
+#editor, #preview {
+  width: 90%;
+  margin: 0 auto;
+  padding: 10px 0;
+}
+
+@media (max-width: 800px) {
+  #editor, #preview {
+    width: 95%;
+  }
+}
+
+.preview-table {
+  width: 100%;
+
+  input {
+    width: 80%;
+  }
+}
+
+.preview-table-desc {
+  width: $pt-grid-size * 10;
+}

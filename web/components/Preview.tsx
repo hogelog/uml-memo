@@ -1,11 +1,14 @@
 import * as React from 'react';
-import {EditableText, HTMLTable} from "@blueprintjs/core";
+import { HTMLTable } from "@blueprintjs/core";
+
+import CopyableInput from "./CopyableInput";
 
 const host = process.env.NODE_ENV === 'development' ? 'http://localhost:8080' : '';
 
 export default class Preview extends React.Component<{uml: string}> {
     fetching = false;
     state = {
+        baseUrl: host,
         encodedUml: "",
     };
 
@@ -21,6 +24,8 @@ export default class Preview extends React.Component<{uml: string}> {
             body: form,
             mode: "cors",
         }).then((res) => {
+            let url = new URL(res.url);
+            this.setState({ baseUrl: `${url.protocol}//${url.host}` });
             return res.json();
         }).then((data) => {
             this.fetching = false;
@@ -39,29 +44,29 @@ export default class Preview extends React.Component<{uml: string}> {
             return (<div />);
         }
 
-        let umlLink = `${host}/uml/source/${this.state.encodedUml}`;
-        let imageLink = `${host}/uml/${this.state.encodedUml}`;
+        let umlLink = `${this.state.baseUrl}/uml/source/${this.state.encodedUml}`;
+        let imageLink = `${this.state.baseUrl}/uml/${this.state.encodedUml}`;
         return (
             <>
-                <img src={imageLink} />
-                <HTMLTable>
+                <a href={imageLink}><img src={imageLink} /></a>
+                <HTMLTable className="preview-table">
                     <tbody>
                     <tr>
-                        <td>Image URL</td>
+                        <td className="preview-table-desc">Image URL</td>
                         <td>
-                            <EditableText selectAllOnFocus={true} defaultValue={imageLink} />
+                            <CopyableInput id="image-link" value={imageLink} />
                         </td>
                     </tr>
                     <tr>
-                        <td>Markdown</td>
+                        <td className="preview-table-desc">Markdown</td>
                         <td>
-                            <EditableText selectAllOnFocus={true} defaultValue={`![](${imageLink})`} />
+                            <CopyableInput id="image-markdown" value={`![](${imageLink})`} />
                         </td>
                     </tr>
                     <tr>
-                        <td>UML URL</td>
+                        <td className="preview-table-desc">UML URL</td>
                         <td>
-                            <EditableText selectAllOnFocus={true} defaultValue={`![](${umlLink})`} />
+                            <CopyableInput id="uml-link" value={umlLink} />
                         </td>
                     </tr>
                     </tbody>
