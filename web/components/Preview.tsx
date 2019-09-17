@@ -48,7 +48,7 @@ export default class Preview extends React.Component<{uml: string}> {
         let imageLink = `${this.state.baseUrl}/uml/${this.state.encodedUml}`;
         return (
             <>
-                <a href={imageLink}><img src={imageLink} /></a>
+                <a href={imageLink} target="_blank" rel="noopener noreferrer"><img src={imageLink} /></a>
                 <HTMLTable className="preview-table">
                     <tbody>
                     <tr>
