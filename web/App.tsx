@@ -10,6 +10,8 @@ import "@blueprintjs/core/lib/css/blueprint.css";
 
 import './App.scss';
 
+import "./codemirror/plantuml";
+
 import Preview from "./components/Preview";
 
 export default class App extends React.Component<{}> {
@@ -27,7 +29,7 @@ export default class App extends React.Component<{}> {
                 <CodeMirror
                     value={this.state.uml}
                     options={{
-                        mode: 'plain',
+                        mode: 'plantuml',
                         theme: 'material',
                         lineNumbers: true,
                         'CodeMirror-lines': 100
