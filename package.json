@@ -13,6 +13,7 @@
     "typescript": "^3.6.2"
   },
   "scripts": {
+    "lint": "tslint -c tslint.json 'web/**/*.{ts,tsx}'",
     "build": "NODE_ENV=production parcel build web/index.html --out-dir src/main/resources/static/",
     "serve": "NODE_ENV=development parcel serve web/index.html --out-dir src/main/resources/static/"
   },
