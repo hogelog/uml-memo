@@ -51,9 +51,8 @@ export default class App extends React.Component<{}> {
                     icon: IconNames.ERROR,
                 });
             });
-        } else {
-            this.updateUml();
         }
+        this.updateUml();
     }
 
     public render() {
