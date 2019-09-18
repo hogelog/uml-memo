@@ -1,7 +1,6 @@
 import { Button, Intent } from "@blueprintjs/core";
 import { IconNames } from "@blueprintjs/icons";
 import * as React from "react";
-// @ts-ignore
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { AppToaster } from "./Toaster";
 

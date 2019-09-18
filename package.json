@@ -7,7 +7,6 @@
   "license": "MIT",
   "private": true,
   "devDependencies": {
-    "@types/react-copy-to-clipboard": "^4.2.6",
     "parcel-bundler": "^1.12.3",
     "sass": "^1.22.12",
     "typescript": "^3.6.2"
@@ -20,10 +19,13 @@
   "dependencies": {
     "@blueprintjs/core": "^3.18.1",
     "@blueprintjs/icons": "^3.10.0",
+    "@types/js-cookie": "^2.2.2",
     "@types/node": "^12.7.4",
     "@types/react": "^16.9.2",
+    "@types/react-copy-to-clipboard": "^4.2.6",
     "@types/react-dom": "^16.9.0",
     "codemirror": "^5.48.4",
+    "js-cookie": "^2.2.1",
     "normalize.css": "^8.0.1",
     "query-string": "^6.8.3",
     "react": "^16.9.0",
