@@ -32,6 +32,7 @@ export default class App extends React.Component<{}> {
                         mode: "plantuml",
                         lineNumbers: true,
                         theme: "material",
+                        viewportMargin: Infinity,
                     }}
                     onBeforeChange={(editor, data, value) => {
                         this.setState({uml: value});
