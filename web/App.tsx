@@ -20,23 +20,23 @@ import Preview from "./components/Preview";
 import {AppToaster} from "./components/Toaster";
 import Timer = NodeJS.Timer;
 
-const host = process.env.NODE_ENV === "development" ? "http://localhost:8080" : "";
-const editor_delay = 500;
+const HOST = process.env.NODE_ENV === "development" ? "http://localhost:8080" : "";
+const PREVIEW_DELAY = 500;
 
 export default class App extends React.Component<{}> {
-    private changeTimer? : Timer;
     public state = {
         baseUrl : "",
         encodedUml: "",
         uml: "@startuml\nBob -> Alice : Hello\n@enduml",
     };
+    private changeTimer?: Timer;
 
     public componentDidMount() {
         const params = QueryString.parse(location.search);
         if (params.uml) {
             const form = new FormData();
             form.append("uml", params.uml);
-            fetch(`${host}/api/uml/decode`, {
+            fetch(`${HOST}/api/uml/decode`, {
                 method: "POST",
                 body: form,
                 mode: "cors",
@@ -77,7 +77,7 @@ export default class App extends React.Component<{}> {
                             }
                             this.changeTimer = setTimeout(() => {
                                 this.updateUml();
-                            }, editor_delay);
+                            }, PREVIEW_DELAY);
                         }}
                     />
                 </div>
@@ -96,7 +96,7 @@ export default class App extends React.Component<{}> {
         const form = new FormData();
         form.append("uml", this.state.uml);
 
-        return fetch(`${host}/api/uml/encode`, {
+        return fetch(`${HOST}/api/uml/encode`, {
             method: "POST",
             body: form,
             mode: "cors",
