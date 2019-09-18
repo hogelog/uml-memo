@@ -18,10 +18,13 @@ import "./codemirror/plantuml";
 
 import Preview from "./components/Preview";
 import {AppToaster} from "./components/Toaster";
+import Timer = NodeJS.Timer;
 
 const host = process.env.NODE_ENV === "development" ? "http://localhost:8080" : "";
+const editor_delay = 500;
 
 export default class App extends React.Component<{}> {
+    private changeTimer? : Timer;
     public state = {
         baseUrl : "",
         encodedUml: "",
@@ -68,7 +71,13 @@ export default class App extends React.Component<{}> {
                             this.setState({uml: value});
                         }}
                         onChange={(editor, data, value) => {
-                            this.updateUml();
+                            if (this.changeTimer) {
+                                clearTimeout(this.changeTimer);
+                                this.changeTimer = undefined;
+                            }
+                            this.changeTimer = setTimeout(() => {
+                                this.updateUml();
+                            }, editor_delay);
                         }}
                     />
                 </div>
