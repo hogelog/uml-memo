@@ -23,9 +23,10 @@ const host = process.env.NODE_ENV === "development" ? "http://localhost:8080" : 
 
 export default class App extends React.Component<{}> {
     public state = {
+        baseUrl : "",
+        encodedUml: "",
         uml: "@startuml\nBob -> Alice : Hello\n@enduml",
     };
-    private previewRef = React.createRef<Preview>();
 
     public componentDidMount() {
         const params = QueryString.parse(location.search);
@@ -47,40 +48,61 @@ export default class App extends React.Component<{}> {
                     icon: IconNames.ERROR,
                 });
             });
+        } else {
+            this.updateUml();
         }
     }
 
     public render() {
-        const { uml } = this.state;
-
         return (
             <div id="app">
                 <div id="editor">
-                <CodeMirror
-                    value={this.state.uml}
-                    options={{
-                        mode: "plantuml",
-                        lineNumbers: true,
-                        theme: "material",
-                    }}
-                    onBeforeChange={(editor, data, value) => {
-                        this.setState({uml: value});
-                    }}
-                    onChange={(editor, data, value) => {
-                        this.updateUml();
-                    }}
-                />
+                    <CodeMirror
+                        value={this.state.uml}
+                        options={{
+                            mode: "plantuml",
+                            lineNumbers: true,
+                            theme: "material",
+                        }}
+                        onBeforeChange={(editor, data, value) => {
+                            this.setState({uml: value});
+                        }}
+                        onChange={(editor, data, value) => {
+                            this.updateUml();
+                        }}
+                    />
                 </div>
                 <div id="preview">
-                    <Preview host={host} uml={uml} ref={this.previewRef}/>
+                    <Preview
+                        apiHost={this.state.baseUrl}
+                        editorHost={`${location.protocol}//${location.host}`}
+                        uml={this.state.encodedUml}
+                    />
                 </div>
             </div>
         );
     }
 
     private updateUml() {
-        if (this.previewRef.current) {
-            this.previewRef.current.updateUml();
-        }
+        const form = new FormData();
+        form.append("uml", this.state.uml);
+
+        return fetch(`${host}/api/uml/encode`, {
+            method: "POST",
+            body: form,
+            mode: "cors",
+        }).then((res) => {
+            const url = new URL(res.url);
+            this.setState({ baseUrl: `${url.protocol}//${url.host}` });
+            return res.json();
+        }).then((data) => {
+            this.setState({ encodedUml: data.encoded });
+        }).catch((e) => {
+            AppToaster.show({
+                message: e.message,
+                intent: Intent.DANGER,
+                icon: IconNames.ERROR,
+            });
+        });
     }
 }

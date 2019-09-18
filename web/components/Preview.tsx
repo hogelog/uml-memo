@@ -1,59 +1,14 @@
-import {HTMLTable, Intent} from "@blueprintjs/core";
-import { IconNames } from "@blueprintjs/icons";
+import {HTMLTable} from "@blueprintjs/core";
 import * as React from "react";
 
 import CopyableInput from "./CopyableInput";
 import LinkIcon from "./LinkIcon";
-import { AppToaster } from "./Toaster";
 
-const host = process.env.NODE_ENV === "development" ? "http://localhost:8080" : "";
-
-export default class Preview extends React.Component<{host: string, uml: string}> {
-    public fetching = false;
-    public state = {
-        baseUrl: host,
-        encodedUml: "",
-    };
-
-    public updateUml() {
-        if (this.fetching) { return; }
-        this.fetching = true;
-
-        const form = new FormData();
-        form.append("uml", this.props.uml);
-
-        return fetch(`${this.props.host}/api/uml/encode`, {
-            method: "POST",
-            body: form,
-            mode: "cors",
-        }).then((res) => {
-            const url = new URL(res.url);
-            this.setState({ baseUrl: `${url.protocol}//${url.host}` });
-            return res.json();
-        }).then((data) => {
-            this.fetching = false;
-            this.setState({ encodedUml: data.encoded });
-        }).catch((e) => {
-            AppToaster.show({
-                message: e.message,
-                intent: Intent.DANGER,
-                icon: IconNames.ERROR,
-            });
-        });
-    }
-
-    public componentDidMount() {
-        this.updateUml();
-    }
-
+export default class Preview extends React.Component<{apiHost: string, editorHost: string, uml: string}> {
     public render() {
-        if (this.state.encodedUml.length === 0) {
-            return (<div />);
-        }
-
-        const umlLink = `${this.state.baseUrl}/uml/source/${this.state.encodedUml}`;
-        const imageLink = `${this.state.baseUrl}/uml/${this.state.encodedUml}`;
-        const shareLink = `${location.protocol}//${location.host}/?uml=${this.state.encodedUml}`;
+        const umlLink = `${this.props.apiHost}/uml/source/${this.props.uml}`;
+        const imageLink = `${this.props.apiHost}/uml/${this.props.uml}`;
+        const shareLink = `${this.props.editorHost}/?uml=${this.props.uml}`;
         return (
             <>
                 <a href={imageLink} target="_blank" rel="noopener noreferrer"><img src={imageLink} /></a>
