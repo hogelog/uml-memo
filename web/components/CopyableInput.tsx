@@ -5,7 +5,7 @@ import { AppToaster } from "./Toaster";
 import { Button, Intent } from "@blueprintjs/core";
 import { IconNames } from "@blueprintjs/icons";
 
-export default class CopyableInput extends React.Component<{id: string, value: string}> {
+export default class CopyableInput extends React.Component<{value: string}> {
     state = {
         value: this.props.value,
         copied: false,
@@ -14,7 +14,7 @@ export default class CopyableInput extends React.Component<{id: string, value: s
     render() {
         return (
             <>
-                <input type="text" className="bp3-input" id={this.props.id}
+                <input type="text" className="bp3-input"
                        defaultValue={this.props.value}
                        onChange={({target: {value}}) => this.setState({value, copied: false})}
                 />

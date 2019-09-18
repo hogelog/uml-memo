@@ -54,19 +54,19 @@ export default class Preview extends React.Component<{uml: string}> {
                     <tr>
                         <td className="preview-table-desc">Image URL</td>
                         <td>
-                            <CopyableInput id="image-link" value={imageLink} />
+                            <CopyableInput value={imageLink} />
                         </td>
                     </tr>
                     <tr>
                         <td className="preview-table-desc">Markdown</td>
                         <td>
-                            <CopyableInput id="image-markdown" value={`![](${imageLink})`} />
+                            <CopyableInput value={`![](${imageLink})`} />
                         </td>
                     </tr>
                     <tr>
                         <td className="preview-table-desc">UML URL</td>
                         <td>
-                            <CopyableInput id="uml-link" value={umlLink} />
+                            <CopyableInput value={umlLink} />
                         </td>
                     </tr>
                     </tbody>
