@@ -1,8 +1,9 @@
-import { HTMLTable, Intent } from "@blueprintjs/core";
+import {HTMLTable, Intent} from "@blueprintjs/core";
 import { IconNames } from "@blueprintjs/icons";
 import * as React from "react";
 
 import CopyableInput from "./CopyableInput";
+import LinkIcon from "./LinkIcon";
 import { AppToaster } from "./Toaster";
 
 const host = process.env.NODE_ENV === "development" ? "http://localhost:8080" : "";
@@ -21,7 +22,6 @@ export default class Preview extends React.Component<{host: string, uml: string}
         const form = new FormData();
         form.append("uml", this.props.uml);
 
-        console.log(form);
         return fetch(`${this.props.host}/api/uml/encode`, {
             method: "POST",
             body: form,
@@ -60,25 +60,36 @@ export default class Preview extends React.Component<{host: string, uml: string}
                 <HTMLTable className="preview-table">
                     <tbody>
                     <tr>
-                        <td className="preview-table-desc">Image URL</td>
+                        <td className="preview-table-desc">
+                            Image URL
+                            <LinkIcon href={imageLink} />
+                        </td>
                         <td>
                             <CopyableInput value={imageLink} />
                         </td>
                     </tr>
                     <tr>
-                        <td className="preview-table-desc">Markdown</td>
+                        <td className="preview-table-desc">
+                            Markdown
+                        </td>
                         <td>
                             <CopyableInput value={`![](${imageLink})`} />
                         </td>
                     </tr>
                     <tr>
-                        <td className="preview-table-desc">UML URL</td>
+                        <td className="preview-table-desc">
+                            UML URL
+                            <LinkIcon href={umlLink} />
+                        </td>
                         <td>
                             <CopyableInput value={umlLink} />
                         </td>
                     </tr>
                     <tr>
-                        <td className="preview-table-desc">Share</td>
+                        <td className="preview-table-desc">
+                            Share
+                            <LinkIcon href={shareLink} />
+                        </td>
                         <td>
                             <CopyableInput value={shareLink} />
                         </td>

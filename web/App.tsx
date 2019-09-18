@@ -68,12 +68,6 @@ export default class App extends React.Component<{}> {
                     }}
                     onChange={(editor, data, value) => {
                         this.updateUml();
-                        //if (this.previewRef.current) {
-                        //    this.previewRef.current.updateUml();
-                        //}
-                    }}
-                    editorDidMount={(editor) => {
-                        this.updateUml();
                     }}
                 />
                 </div>
