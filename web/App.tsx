@@ -1,26 +1,26 @@
-import * as React from 'react';
+import * as React from "react";
 
-import {Controlled as CodeMirror} from 'react-codemirror2'
+import {Controlled as CodeMirror} from "react-codemirror2";
 
-import 'codemirror/lib/codemirror.css';
-import 'codemirror/theme/material.css';
+import "codemirror/lib/codemirror.css";
+import "codemirror/theme/material.css";
 
-import "normalize.css/normalize.css";
 import "@blueprintjs/core/lib/css/blueprint.css";
+import "normalize.css/normalize.css";
 
-import './App.scss';
+import "./App.scss";
 
 import "./codemirror/plantuml";
 
 import Preview from "./components/Preview";
 
 export default class App extends React.Component<{}> {
-    private previewRef = React.createRef<Preview>();
 
     public state = {
-        uml: "@startuml\nBob -> Alice : Hello\n@enduml"
+        uml: "@startuml\nBob -> Alice : Hello\n@enduml",
     };
-    render() {
+    private previewRef = React.createRef<Preview>();
+    public render() {
         const { uml } = this.state;
 
         return (
@@ -29,10 +29,9 @@ export default class App extends React.Component<{}> {
                 <CodeMirror
                     value={this.state.uml}
                     options={{
-                        mode: 'plantuml',
-                        theme: 'material',
+                        mode: "plantuml",
                         lineNumbers: true,
-                        'CodeMirror-lines': 100
+                        theme: "material",
                     }}
                     onBeforeChange={(editor, data, value) => {
                         this.setState({uml: value});

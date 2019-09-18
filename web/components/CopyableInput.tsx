@@ -1,17 +1,17 @@
+import { Button, Intent } from "@blueprintjs/core";
+import { IconNames } from "@blueprintjs/icons";
 import * as React from "react";
 // @ts-ignore
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { AppToaster } from "./Toaster";
-import { Button, Intent } from "@blueprintjs/core";
-import { IconNames } from "@blueprintjs/icons";
 
 export default class CopyableInput extends React.Component<{value: string}> {
-    state = {
+    public state = {
         value: this.props.value,
         copied: false,
     };
 
-    render() {
+    public render() {
         return (
             <>
                 <input type="text" className="bp3-input"
