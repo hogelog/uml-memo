@@ -1,6 +1,7 @@
 package uml.memo.controller;
 
 import net.rubyeye.xmemcached.exception.MemcachedException;
+import net.sourceforge.plantuml.FileFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,9 +12,12 @@ import uml.memo.service.MemcachedService;
 import uml.memo.service.UmlService;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 @RestController
 public class UmlController {
+    private static final String IMAGE_SVG_VALUE = "image/svg+xml";
+
     @Autowired
     UmlService umlService;
 
@@ -22,9 +26,19 @@ public class UmlController {
         return umlService.decode(encoded);
     }
 
-    @GetMapping(path = "/uml/{encoded}", produces = MediaType.IMAGE_PNG_VALUE)
+    @GetMapping(path = { "/uml/{encoded}", "/uml/{encoded}.png" }, produces = MediaType.IMAGE_PNG_VALUE)
     public byte[] image(@PathVariable String encoded) throws IOException, MemcachedService.Exception {
-        String uml = umlService.decode(encoded);
-        return umlService.generateImageWithCache(uml);
+        return umlService.decodeImageWithCache(encoded, FileFormat.PNG);
+    }
+
+    @GetMapping(path = "/uml/{encoded}.svg", produces = IMAGE_SVG_VALUE)
+    public byte[] imageSvg(@PathVariable String encoded) throws IOException, MemcachedService.Exception {
+        return umlService.decodeImageWithCache(encoded, FileFormat.SVG);
+    }
+
+    @GetMapping(path = "/uml/{encoded}.txt", produces = MediaType.TEXT_PLAIN_VALUE)
+    public String imageTxt(@PathVariable String encoded) throws IOException, MemcachedService.Exception {
+        byte[] bytes = umlService.decodeImageWithCache(encoded, FileFormat.UTXT);
+        return new String(bytes, StandardCharsets.UTF_8);
     }
 }

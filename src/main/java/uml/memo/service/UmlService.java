@@ -1,5 +1,7 @@
 package uml.memo.service;
 
+import net.sourceforge.plantuml.FileFormat;
+import net.sourceforge.plantuml.FileFormatOption;
 import net.sourceforge.plantuml.SourceStringReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,21 +47,22 @@ public class UmlService {
         }
     }
 
-    public byte[] generateImageWithCache(String uml) throws IOException, MemcachedService.Exception {
-        String key = "uml:" + DigestUtils.md5DigestAsHex(uml.getBytes(StandardCharsets.UTF_8));
+    public byte[] decodeImageWithCache(String encodedUml, FileFormat format) throws IOException, MemcachedService.Exception {
+        String key = "uml:" + format.name() + ":" + DigestUtils.md5DigestAsHex(encodedUml.getBytes(StandardCharsets.UTF_8));
         Optional<byte[]> cache = memcachedService.get(key);
         if (cache.isPresent()) {
             return cache.get();
         }
-        byte[] image = generateImage(uml);
+        String uml = decode(encodedUml);
+        byte[] image = generateImage(uml, format);
         memcachedService.put(key, image);
         return image;
     }
 
-    public byte[] generateImage(String uml) throws IOException {
+    public byte[] generateImage(String uml, FileFormat format) throws IOException {
         try (ByteArrayOutputStream buffer = new ByteArrayOutputStream()) {
             SourceStringReader reader = new SourceStringReader(uml);
-            String description = reader.generateImage(buffer);
+            String description = reader.generateImage(buffer, 0, new FileFormatOption(format));
             LOGGER.info(description);
             return buffer.toByteArray();
         }
