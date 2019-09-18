@@ -7,7 +7,7 @@ import { AppToaster } from "./Toaster";
 
 const host = process.env.NODE_ENV === "development" ? "http://localhost:8080" : "";
 
-export default class Preview extends React.Component<{uml: string}> {
+export default class Preview extends React.Component<{host: string, uml: string}> {
     public fetching = false;
     public state = {
         baseUrl: host,
@@ -21,7 +21,8 @@ export default class Preview extends React.Component<{uml: string}> {
         const form = new FormData();
         form.append("uml", this.props.uml);
 
-        return fetch(`${host}/api/uml`, {
+        console.log(form);
+        return fetch(`${this.props.host}/api/uml/encode`, {
             method: "POST",
             body: form,
             mode: "cors",
@@ -52,6 +53,7 @@ export default class Preview extends React.Component<{uml: string}> {
 
         const umlLink = `${this.state.baseUrl}/uml/source/${this.state.encodedUml}`;
         const imageLink = `${this.state.baseUrl}/uml/${this.state.encodedUml}`;
+        const shareLink = `${location.protocol}//${location.host}/?uml=${this.state.encodedUml}`;
         return (
             <>
                 <a href={imageLink} target="_blank" rel="noopener noreferrer"><img src={imageLink} /></a>
@@ -73,6 +75,12 @@ export default class Preview extends React.Component<{uml: string}> {
                         <td className="preview-table-desc">UML URL</td>
                         <td>
                             <CopyableInput value={umlLink} />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td className="preview-table-desc">Share</td>
+                        <td>
+                            <CopyableInput value={shareLink} />
                         </td>
                     </tr>
                     </tbody>
