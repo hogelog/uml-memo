@@ -6,6 +6,9 @@ import LinkIcon from "./LinkIcon";
 
 export default class Preview extends React.Component<{apiHost: string, editorHost: string, uml: string}> {
     public render() {
+        if (this.props.uml.length === 0) {
+            return <div />;
+        }
         const umlLink = `${this.props.apiHost}/uml/source/${this.props.uml}`;
         const imageLink = `${this.props.apiHost}/uml/${this.props.uml}`;
         const shareLink = `${this.props.editorHost}/?uml=${this.props.uml}`;
