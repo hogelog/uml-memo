@@ -8,7 +8,7 @@ CodeMirror.defineSimpleMode("plantuml", {
         {regex: /"(?:[^\\]|\\.)*?(?:"|$)/, token: "string"},
         // Rules are matched in the order in which they appear, so there is
         // no ambiguity between this one and the one above
-        {regex: /^(?:@startuml|@enduml)$/, token: "keyword"},
+        {regex: /^(?:@start|@end)(?:uml|dot|mindmap|salt|wbs|gantt)$/, token: "keyword"},
         {regex: /(?:actor|class|object|if|else|endif|activate|deactivate|note)\b/, token: "keyword"},
         {regex: /'.*/, token: "comment"},
         // A next property will cause the mode to move to a different state
