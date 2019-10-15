@@ -41,4 +41,10 @@ public class UmlController {
         byte[] bytes = umlService.decodeImageWithCache(encoded, FileFormat.UTXT);
         return new String(bytes, StandardCharsets.UTF_8);
     }
+
+    @GetMapping(path = "/uml/{encoded}.atxt", produces = MediaType.TEXT_PLAIN_VALUE)
+    public String imageAsciiTxt(@PathVariable String encoded) throws IOException, MemcachedService.Exception {
+        byte[] bytes = umlService.decodeImageWithCache(encoded, FileFormat.ATXT);
+        return new String(bytes, StandardCharsets.UTF_8);
+    }
 }
