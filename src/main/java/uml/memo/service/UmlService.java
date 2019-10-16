@@ -3,6 +3,7 @@ package uml.memo.service;
 import net.sourceforge.plantuml.FileFormat;
 import net.sourceforge.plantuml.FileFormatOption;
 import net.sourceforge.plantuml.SourceStringReader;
+import net.sourceforge.plantuml.core.DiagramDescription;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,8 +63,8 @@ public class UmlService {
     public byte[] generateImage(String uml, FileFormat format) throws IOException {
         try (ByteArrayOutputStream buffer = new ByteArrayOutputStream()) {
             SourceStringReader reader = new SourceStringReader(uml);
-            String description = reader.generateImage(buffer, 0, new FileFormatOption(format));
-            LOGGER.info(description);
+            DiagramDescription diagram = reader.outputImage(buffer, 0, new FileFormatOption(format));
+            LOGGER.info(diagram.getDescription());
             return buffer.toByteArray();
         }
     }
