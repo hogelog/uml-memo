@@ -1,12 +1,10 @@
 package uml.memo.controller;
 
-import net.rubyeye.xmemcached.exception.MemcachedException;
 import net.sourceforge.plantuml.FileFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import uml.memo.service.MemcachedService;
 import uml.memo.service.UmlService;
