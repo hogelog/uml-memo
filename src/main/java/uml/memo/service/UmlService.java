@@ -3,6 +3,7 @@ package uml.memo.service;
 import net.sourceforge.plantuml.FileFormat;
 import net.sourceforge.plantuml.FileFormatOption;
 import net.sourceforge.plantuml.SourceStringReader;
+import net.sourceforge.plantuml.code.TranscoderUtil;
 import net.sourceforge.plantuml.core.DiagramDescription;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,13 +49,17 @@ public class UmlService {
         }
     }
 
-    public byte[] decodeImageWithCache(String encodedUml, FileFormat format) throws IOException, MemcachedService.Exception {
+    public String decodePlantUmlString(String encoded) throws IOException {
+        return TranscoderUtil.getDefaultTranscoder().decode(encoded);
+    }
+
+    public byte[] decodeImageWithCache(String encodedUml, FileFormat format, boolean isPlantUmlEncode) throws IOException, MemcachedService.Exception {
         String key = "uml:" + format.name() + ":" + DigestUtils.md5DigestAsHex(encodedUml.getBytes(StandardCharsets.UTF_8));
         Optional<byte[]> cache = memcachedService.get(key);
         if (cache.isPresent()) {
             return cache.get();
         }
-        String uml = decode(encodedUml);
+        String uml = isPlantUmlEncode ? decodePlantUmlString(encodedUml) : decode(encodedUml);
         byte[] image = generateImage(uml, format);
         memcachedService.put(key, image);
         return image;
