@@ -54,7 +54,7 @@ public class UmlService {
     }
 
     public byte[] decodeImageWithCache(String encodedUml, FileFormat format, boolean isPlantUmlEncode) throws IOException, MemcachedService.Exception {
-        String key = "uml:" + format.name() + ":" + DigestUtils.md5DigestAsHex(encodedUml.getBytes(StandardCharsets.UTF_8));
+        String key = "uml:" + format.name() + ":" + isPlantUmlEncode + ":" + DigestUtils.md5DigestAsHex(encodedUml.getBytes(StandardCharsets.UTF_8));
         Optional<byte[]> cache = memcachedService.get(key);
         if (cache.isPresent()) {
             return cache.get();
