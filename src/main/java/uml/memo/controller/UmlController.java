@@ -26,23 +26,38 @@ public class UmlController {
 
     @GetMapping(path = { "/uml/{encoded}", "/uml/{encoded}.png" }, produces = MediaType.IMAGE_PNG_VALUE)
     public byte[] image(@PathVariable String encoded) throws IOException, MemcachedService.Exception {
-        return umlService.decodeImageWithCache(encoded, FileFormat.PNG);
+        return umlService.decodeImageWithCache(encoded, FileFormat.PNG, false);
     }
 
     @GetMapping(path = "/uml/{encoded}.svg", produces = IMAGE_SVG_VALUE)
     public byte[] imageSvg(@PathVariable String encoded) throws IOException, MemcachedService.Exception {
-        return umlService.decodeImageWithCache(encoded, FileFormat.SVG);
+        return umlService.decodeImageWithCache(encoded, FileFormat.SVG, false);
     }
 
     @GetMapping(path = "/uml/{encoded}.txt", produces = MediaType.TEXT_PLAIN_VALUE)
     public String imageTxt(@PathVariable String encoded) throws IOException, MemcachedService.Exception {
-        byte[] bytes = umlService.decodeImageWithCache(encoded, FileFormat.UTXT);
+        byte[] bytes = umlService.decodeImageWithCache(encoded, FileFormat.UTXT, false);
         return new String(bytes, StandardCharsets.UTF_8);
     }
 
     @GetMapping(path = "/uml/{encoded}.atxt", produces = MediaType.TEXT_PLAIN_VALUE)
     public String imageAsciiTxt(@PathVariable String encoded) throws IOException, MemcachedService.Exception {
-        byte[] bytes = umlService.decodeImageWithCache(encoded, FileFormat.ATXT);
+        byte[] bytes = umlService.decodeImageWithCache(encoded, FileFormat.ATXT, false);
         return new String(bytes, StandardCharsets.UTF_8);
+    }
+
+    @GetMapping(path = "/plantuml/png/{encoded}", produces = MediaType.IMAGE_PNG_VALUE)
+    public byte[] imagePngForPlantUmlEncode(@PathVariable String encoded) throws IOException, MemcachedService.Exception {
+        return umlService.decodeImageWithCache(encoded, FileFormat.PNG, true);
+    }
+
+    @GetMapping(path = "/plantuml/svg/{encoded}", produces = IMAGE_SVG_VALUE)
+    public byte[] imageSvgForPlantUmlEncode(@PathVariable String encoded) throws IOException, MemcachedService.Exception {
+        return umlService.decodeImageWithCache(encoded, FileFormat.SVG, true);
+    }
+
+    @GetMapping(path = "/plantuml/txt/{encoded}", produces = MediaType.TEXT_PLAIN_VALUE)
+    public byte[] imageTxtForPlantUmlEncode(@PathVariable String encoded) throws IOException, MemcachedService.Exception {
+        return umlService.decodeImageWithCache(encoded, FileFormat.ATXT, true);
     }
 }
