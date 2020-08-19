@@ -25,7 +25,7 @@ bootJar.classifier = 'executable'
 
 dependencies {
     compile('org.springframework.boot:spring-boot-starter-web:2.1.8.RELEASE')
-    compile('net.sourceforge.plantuml:plantuml:1.2019.11')
+    compile('net.sourceforge.plantuml:plantuml:1.2020.15')
     compile('com.googlecode.xmemcached:xmemcached:2.4.6')
     testCompile('org.springframework.boot:spring-boot-starter-test:2.1.8.RELEASE')
 }
